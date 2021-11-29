@@ -1,0 +1,22 @@
+
+:root {
+    --green: #2bb483;
+    --white: #ffffff;
+    --btn-size: 20rem;
+    --font-size: 7rem;
+     }
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* This defines what 1rem is */
+    font-family: 'helvetica';
+    font-size: 62.5%;
+}
+

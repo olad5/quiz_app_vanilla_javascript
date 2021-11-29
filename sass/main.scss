@@ -1,0 +1,33 @@
+@import "base";
+
+body {
+    background-color:var(--green);
+    display:flex;
+    box-sizing: border-box;
+    justify-content:center;
+}
+
+
+#header {
+    text-align:center;
+    color:var(--white);
+    margin-bottom:2rem;
+    font-size: var(--font-size);
+}
+
+main {
+
+        display:flex;
+        flex-direction:column;
+        width:70vw;
+        margin-top:28rem;
+
+}
+
+#start-btn {
+            width:var(--btn-size);
+            height:5rem;
+            margin:0 auto;
+            color:var(--green);
+            background-color:var(--white);
+}
