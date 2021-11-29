@@ -1,0 +1,164 @@
+@import "base";
+
+body {
+    background-color:var(--green);
+    display:flex;
+    box-sizing: border-box;
+    justify-content:center;
+}
+
+
+#header {
+    text-align:center;
+    color:var(--white);
+    margin-bottom:2rem;
+    font-size: var(--font-size);
+}
+
+#result {
+    border:8px solid var(--white);    
+    font-size:3rem;
+    width:12rem;
+    height:12rem;
+    border-radius:50%;
+    margin-top:4rem;
+    margin-bottom:4rem;
+    padding-top:4rem;
+    text-align:center;
+}
+
+.question-tab {
+    background-color:var(--white);
+    height:100%;
+    display:flex;
+    width:60%;
+    flex-direction:column;
+    padding:7%;
+
+
+    .question-box {
+        .question-block {
+            
+            font-size:3rem;
+            display:flex;
+
+        .question-num {
+            color:var(--green);
+            margin-right:0.5rem;
+            }
+        }
+        .options {
+            list-style:none;
+            font-size:2rem;
+        margin-top:3rem;
+
+            .selected-opt {
+                background-color:var(--green);
+                border-radius:7px;
+                color:var(--white);
+
+               .checkbox  {
+
+                background-color:var(--white);
+               }
+            }
+            .option {
+                padding-left:2rem;
+                
+               .checkbox  {
+                    width:1rem;
+                    height:1rem;
+                    border:1px solid grey;
+                    border-radius:100%;
+                    margin-right:20px;
+                    display: inline-block;
+
+                   img {
+                    width:100%;
+                    height:100%;
+
+                   }
+               }
+
+            }
+
+        }
+
+    }
+
+    .questions-navigator {
+        display:flex;
+        justify-content:space-between;
+        margin-top:3rem;
+
+        .navs {
+            padding:1%;
+            background-color:var(--green);
+
+        }
+
+    }
+    .questions-slider {
+        display:flex;
+        margin-top:2rem;
+        width:60%;
+        align-self:center;
+        justify-content:space-between;
+
+        .question-mark {
+            width:3rem;
+            height:2.5rem;
+            border:1px solid grey;
+            text-align:center;
+            padding:2%;
+            background-color:lightgray;
+
+        }
+
+        .current {
+            background-color:var(--green);
+        }
+
+    }
+
+}
+
+p {
+    font-size:2rem;
+
+}
+
+main {
+
+        display:flex;
+        width:100%;
+        align-items:center;
+
+    .timer {
+            height:100vh;
+            justify-content:space-between;
+            color:var(--white);
+            width:40%;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            text-align:center;
+
+            h2 {
+                font-size:3rem;
+                margin-top:4rem;
+            }
+            p {
+                margin-top:4rem;
+                font-size:5rem;
+
+            }
+            .alarm-icon {
+                width:9rem;
+                height:9rem;
+                // https://codepen.io/sosuke/pen/Pjoqqp, using filter to color svgs
+                filter: invert(100%) sepia(3%) saturate(0%) hue-rotate(169deg) brightness(103%) contrast(103%);
+            }
+    }
+}
+

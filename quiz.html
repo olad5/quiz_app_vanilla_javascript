@@ -11,6 +11,7 @@
     <meta name="author" content="">
 
 
+    <link rel="stylesheet" href="css/quiz.css">
 
 </head>
 
@@ -19,28 +20,33 @@
     <main>
         <div class="question-tab">
             <div class="question-box">
-                <p class="question">If west coast is to west, east coast is to?</p>
+
+                <p class="question-block">
+                    <span class="question-num">1.</span>
+                    <span class="question-text">If west coast is to west, east coast is to?</span>
+                </p>
                 <ul class="options">
-                    <li class="option">North</li>
-                    <li class="option">South</li>
-                    <li class="option">East</li>
-                    <li class="option">West</li>
+                    <li class="option"><span class="checkbox"></span>North</li>
+                    <li class="option"><span class="checkbox"></span>South</li>
+                    <li class="option selected-opt"><span class="checkbox"></span>East
+                    </li>
+                    <li class="option"><span class="checkbox"></span>West</li>
                 </ul>
             </div>
 
             <div class="questions-navigator">
-                <div class="previous"> Prev</div>
-                <div class="next"> Next</div>
+                <div class="previous navs"> Prev</div>
+                <div class="next navs"> Next</div>
             </div>
             <div class="questions-slider">
-                <div class="question-1">1</div>
-                <div class="question-2">2</div>
-                <div class="question-3">3</div>
+                <div class="question-mark question-1">1</div>
+                <div class="question-mark question-2 current">2</div>
+                <div class="question-mark question-3">3</div>
             </div>
         </div>
         <div class="timer">
             <h2>Quiz in Session</h2>
-            <div>Clock icon</div>
+            <div><img class='alarm-icon' src="assets/alarm_clock.svg"></div>
             <p>23:11</p>
         </div>
     </main>
