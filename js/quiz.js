@@ -1,12 +1,14 @@
-// 'use strict'
+'use strict'
 
 
 const quiz_state = true;
 let options = document.querySelector('.options');
 let nextBtn = document.querySelector('.next-btn');
+const question_slider = document.querySelector('.questions-slider')
 let prevBtn = document.querySelector('.previous-btn');
 let selected;
 let currentQuestionIndex = 0;
+
 
 
 
@@ -19,11 +21,10 @@ let questions = [
 ]
 
 const loadQuestions = (questions) => {
-    const question_slider = document.querySelector('.questions-slider')
     for (let i = 0; i < questions.length; i++) {
 
         let each_slider = document.createElement('div');
-        each_slider.className = `question-mark question-${i + 1}`;
+        each_slider.className = `question-mark question-${i}`;
         each_slider.appendChild(document.createTextNode(i + 1));
         question_slider.appendChild(each_slider);
     }
@@ -49,12 +50,23 @@ const nextQuestion = (e) => {
     // get the previous question index
     displayCurrentQuestion(currentQuestionIndex + 1);
     currentQuestionIndex++;
+    highlightBox(currentQuestionIndex + 1);
 
 }
 const prevQuestion = (e) => {
     // get the previous question index
     displayCurrentQuestion(currentQuestionIndex - 1);
     currentQuestionIndex--;
+    highlightBox(currentQuestionIndex + 1);
+
+}
+const sliderBoxClicked = (e) => {
+    let selectedBoxIndex = e.target.textContent;
+    // get the index of the selected box
+    displayCurrentQuestion(Number(selectedBoxIndex) - 1);
+    currentQuestionIndex = Number(selectedBoxIndex);
+    highlightBox(currentQuestionIndex);
+
 
 }
 const optionSelected = (e) => {
@@ -78,9 +90,29 @@ const optionSelected = (e) => {
 // loads all the questions
 loadQuestions(questions);
 
+
+// creates navigator slider event handlers
+let questionBoxes = Array.from(question_slider.children);
+questionBoxes.forEach((box) => {
+    box.addEventListener('click', sliderBoxClicked);
+
+})
+
+const highlightBox = (currentQuestionIndex) => {
+    // remove the className from all boxes first
+    questionBoxes.forEach((box) => {
+        box.classList.remove('current');
+
+    })
+
+    // then apply it to the current question
+    document.querySelector(`.question-${currentQuestionIndex - 1}`).className += ' current';
+
+}
 if (quiz_state) {
-    // print the first question
+    // prints the first question
     displayCurrentQuestion(0);
+    highlightBox(1);
 }
 
 options.addEventListener('click', optionSelected);
