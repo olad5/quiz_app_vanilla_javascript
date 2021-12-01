@@ -1,8 +1,13 @@
 // 'use strict'
+
+
 const quiz_state = true;
-
-
 let options = document.querySelector('.options');
+let nextBtn = document.querySelector('.next-btn');
+let prevBtn = document.querySelector('.previous-btn');
+let selected;
+let currentQuestionIndex = 0;
+
 
 
 
@@ -23,8 +28,6 @@ const loadQuestions = (questions) => {
         question_slider.appendChild(each_slider);
     }
 
-
-
 }
 
 const displayCurrentQuestion = (question_index) => {
@@ -37,10 +40,23 @@ const displayCurrentQuestion = (question_index) => {
         options.children[i].id = `option-${i}`
 
     }
+    return true;
 
 }
-let selected;
 
+
+const nextQuestion = (e) => {
+    // get the previous question index
+    displayCurrentQuestion(currentQuestionIndex + 1);
+    currentQuestionIndex++;
+
+}
+const prevQuestion = (e) => {
+    // get the previous question index
+    displayCurrentQuestion(currentQuestionIndex - 1);
+    currentQuestionIndex--;
+
+}
 const optionSelected = (e) => {
     // index of the option selected
     const selectedOption = document.getElementById(e.target.id);
@@ -57,8 +73,6 @@ const optionSelected = (e) => {
     selectedOption.className += ' selected-opt';
     selected = selectedOption.id;
 
-
-
 }
 
 // loads all the questions
@@ -70,3 +84,5 @@ if (quiz_state) {
 }
 
 options.addEventListener('click', optionSelected);
+nextBtn.addEventListener('click', nextQuestion);
+prevBtn.addEventListener('click', prevQuestion);
