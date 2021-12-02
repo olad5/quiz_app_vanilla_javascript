@@ -9,6 +9,7 @@ let prevBtn = document.querySelector('.previous-btn');
 let selected; //the selected option 
 let currentQuestionIndex = 0; // index of current question
 let startingSeconds = 5; // starting seconds for the timer
+let questions_answered = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 const countdownEl = document.getElementById('countdown'); // countdown timer text
 
 
@@ -48,44 +49,37 @@ const displayCurrentQuestion = (question_index) => {
 }
 
 
+
 const nextQuestion = (e) => {
-    // get the previous question index
-    displayCurrentQuestion(currentQuestionIndex + 1);
-    currentQuestionIndex++;
-    highlightBox(currentQuestionIndex + 1);
+    displayCurrentQuestion(currentQuestionIndex + 1);// display the next question 
+    currentQuestionIndex++;//change the currentQuestionIndex to reflect the new current question you are on
+    highlightBox(currentQuestionIndex + 1);//highlights the current question in the navigator slider
+    highlightAnswer(currentQuestionIndex);//highlights the current chosen answer in the question
 
 }
 const prevQuestion = (e) => {
-    // get the previous question index
-    displayCurrentQuestion(currentQuestionIndex - 1);
-    currentQuestionIndex--;
-    highlightBox(currentQuestionIndex + 1);
+    displayCurrentQuestion(currentQuestionIndex - 1);// display the previous question 
+    currentQuestionIndex--; //change the currentQuestionIndex to reflect the new current question you are on
+    highlightBox(currentQuestionIndex + 1)//highlights the current question in the navigator slider;
+    highlightAnswer(currentQuestionIndex); //highlights the current chosen answer in the question
 
 }
 const sliderBoxClicked = (e) => {
-    let selectedBoxIndex = e.target.textContent;
-    // get the index of the selected box
-    displayCurrentQuestion(Number(selectedBoxIndex) - 1);
-    currentQuestionIndex = Number(selectedBoxIndex);
-    highlightBox(currentQuestionIndex);
-
+    let selectedBoxIndex = e.target.textContent; //the index of the slider box that was clicked
+    displayCurrentQuestion(Number(selectedBoxIndex) - 1);// display the question when the user clicks that number
+    currentQuestionIndex = Number(selectedBoxIndex) - 1;// change the the current question number
+    highlightBox(currentQuestionIndex + 1);//highlights the current question in the navigator slider 
 
 }
 const optionSelected = (e) => {
-    // index of the option selected
-    const selectedOption = document.getElementById(e.target.id);
 
-    // checks that a Selection  exists and that new selection is not the same id as the previous Option
-    if (Boolean(selected) == true && selected != selectedOption.id) {
+    const selectedOption = document.getElementById(e.target.id);// index of the option selected
 
-        // reverse the old option styles to the default state
-        let oldOption = document.getElementById(`${selected}`);
-        oldOption.style.backgroundColor = '';
-        oldOption.style.color = '';
-        oldOption.className = 'option';
-    }
-    selectedOption.className += ' selected-opt';
-    selected = selectedOption.id;
+    selected = selectedOption.id; //id of the answer selected
+    let selectedOptionIndex = Number(selected.slice(-1));
+    questions_answered[currentQuestionIndex] = selectedOptionIndex;//add the chosen answer to the json object to hold the answers
+    highlightAnswer(currentQuestionIndex);//highlights the current chosen answer in the question
+
 
 }
 
@@ -100,15 +94,27 @@ questionBoxes.forEach((box) => {
 
 })
 
+const highlightAnswer = (currentQuestionIndex) => {
+    [0, 1, 2, 3].forEach((option) => {
+
+        document.getElementById(`option-${option}`).className = 'option';// remove all the green backgroundColor  from all options
+    });
+
+    if (Object.keys(questions_answered).includes((currentQuestionIndex).toString())) {
+        let initial_answer = questions_answered[currentQuestionIndex];
+        let oldSelectedOption = document.getElementById(`option-${initial_answer}`);// old selected option
+        oldSelectedOption.className += ' selected-opt';
+
+
+    }
+}
 const highlightBox = (currentQuestionIndex) => {
-    // remove the className from all boxes first
     questionBoxes.forEach((box) => {
-        box.classList.remove('current');
+        box.classList.remove('current');// remove the className current from all boxes first
 
     })
 
-    // then apply it to the current question
-    document.querySelector(`.question-${currentQuestionIndex - 1}`).className += ' current';
+    document.querySelector(`.question-${currentQuestionIndex - 1}`).className += ' current';// then apply it to the current question
 
 }
 
@@ -125,7 +131,6 @@ const startTimer = () => { // code to start the timer
     }
 
 }
-let timerIntervalId = setInterval(startTimer, 1000);// runs the changes in the timer
 
 const endTimer = () => { // code to end the timer
     clearInterval(timerIntervalId);
@@ -134,6 +139,7 @@ const endTimer = () => { // code to end the timer
 
 }
 
+let timerIntervalId = setInterval(startTimer, 1000);// runs the changes in the timer
 if (quiz_state) {
     displayCurrentQuestion(0); // prints the first question
     highlightBox(1);// highlight the first box(not a clean implementation)
