@@ -1,13 +1,15 @@
 'use strict'
 
 
-const quiz_state = true;
-let options = document.querySelector('.options');
-let nextBtn = document.querySelector('.next-btn');
-const question_slider = document.querySelector('.questions-slider')
+const quiz_state = true; //state of the quiz
+let options = document.querySelector('.options'); // the parent for the answers
+let nextBtn = document.querySelector('.next-btn');// next button
+const question_slider = document.querySelector('.questions-slider')// parent of navigator boxes
 let prevBtn = document.querySelector('.previous-btn');
-let selected;
-let currentQuestionIndex = 0;
+let selected; //the selected option 
+let currentQuestionIndex = 0; // index of current question
+let startingSeconds = 5; // starting seconds for the timer
+const countdownEl = document.getElementById('countdown'); // countdown timer text
 
 
 
@@ -109,10 +111,33 @@ const highlightBox = (currentQuestionIndex) => {
     document.querySelector(`.question-${currentQuestionIndex - 1}`).className += ' current';
 
 }
+
+const startTimer = () => { // code to start the timer
+    const minutes = Math.floor(startingSeconds / 60);
+    let seconds = startingSeconds % 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    countdownEl.innerHTML = `${minutes}:${seconds}`
+    startingSeconds--;
+    if (startingSeconds < 0) {
+        endTimer();
+        window.location.href = "../completed.html";// go the completed page
+
+    }
+
+}
+let timerIntervalId = setInterval(startTimer, 1000);// runs the changes in the timer
+
+const endTimer = () => { // code to end the timer
+    clearInterval(timerIntervalId);
+    // release our intervalId from the variable
+    timerIntervalId = null;
+
+}
+
 if (quiz_state) {
-    // prints the first question
-    displayCurrentQuestion(0);
-    highlightBox(1);
+    displayCurrentQuestion(0); // prints the first question
+    highlightBox(1);// highlight the first box(not a clean implementation)
+    startTimer();// starts the timer engine
 }
 
 options.addEventListener('click', optionSelected);
