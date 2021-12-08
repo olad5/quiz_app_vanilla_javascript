@@ -8,7 +8,7 @@ const question_slider = document.querySelector('.questions-slider')// parent of 
 let prevBtn = document.querySelector('.previous-btn');
 let selected; //the selected option 
 let currentQuestionIndex = 0; // index of current question
-let startingSeconds = 5; // starting seconds for the timer
+let startingSeconds = 10000; // starting seconds for the timer
 let questions_answered = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 const countdownEl = document.getElementById('countdown'); // countdown timer text
 
@@ -69,6 +69,7 @@ const sliderBoxClicked = (e) => {
     displayCurrentQuestion(Number(selectedBoxIndex) - 1);// display the question when the user clicks that number
     currentQuestionIndex = Number(selectedBoxIndex) - 1;// change the the current question number
     highlightBox(currentQuestionIndex + 1);//highlights the current question in the navigator slider 
+    highlightAnswer(currentQuestionIndex); //highlights the current chosen answer in the question
 
 }
 const optionSelected = (e) => {
