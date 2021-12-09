@@ -2,19 +2,17 @@
 
 
 const quiz_state = true; //state of the quiz
-let options = document.querySelector('.options'); // the parent for the answers
-let nextBtn = document.querySelector('.next-btn');// next button
+const options = document.querySelector('.options'); // the parent for the answers
+const nextBtn = document.querySelector('.next-btn');// next button
 const question_slider = document.querySelector('.questions-slider')// parent of navigator boxes
 let prevBtn = document.querySelector('.previous-btn');
 let selected; //the selected option 
 let currentQuestionIndex = 0; // index of current question
-// let startingSeconds = 5; // starting seconds for the timer
 let startingSeconds = 1000; // starting seconds for the timer
 let user_choices = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 let answers_to_questions = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 let final_score = 0; // user final score 
 const countdownEl = document.getElementById('countdown'); // countdown timer text
-
 const endQuizBtn = document.getElementById('end-quiz'); // 
 
 
@@ -31,7 +29,7 @@ let questions = [
 const loadQuestions = (questions) => {
     for (let i = 0; i < questions.length; i++) {
 
-        let each_slider = document.createElement('div');
+        let each_slider = document.createElement('a');
         each_slider.className = `question-mark question-${i}`;
         each_slider.appendChild(document.createTextNode(i + 1));
         question_slider.appendChild(each_slider);
@@ -66,40 +64,42 @@ const displayCurrentQuestion = (question_index) => {
 const nextQuestion = (e) => {
     displayCurrentQuestion(currentQuestionIndex + 1);// display the next question 
     currentQuestionIndex++;//change the currentQuestionIndex to reflect the new current question you are on
-    highlightBox(currentQuestionIndex + 1);//highlights the current question in the navigator slider
-    highlightAnswer(currentQuestionIndex);//highlights the current chosen answer in the question
-
+    highlight(currentQuestionIndex);//runs general highlighting
 }
 const prevQuestion = (e) => {
     displayCurrentQuestion(currentQuestionIndex - 1);// display the previous question 
     currentQuestionIndex--; //change the currentQuestionIndex to reflect the new current question you are on
-    highlightBox(currentQuestionIndex + 1)//highlights the current question in the navigator slider;
-    highlightAnswer(currentQuestionIndex); //highlights the current chosen answer in the question
-
+    highlight(currentQuestionIndex);//runs general highlighting
 }
+
 const sliderBoxClicked = (e) => {
     let selectedBoxIndex = e.target.textContent; //the index of the slider box that was clicked
     displayCurrentQuestion(Number(selectedBoxIndex) - 1);// display the question when the user clicks that number
     currentQuestionIndex = Number(selectedBoxIndex) - 1;// change the the current question number
-    highlightBox(currentQuestionIndex + 1);//highlights the current question in the navigator slider 
-    highlightAnswer(currentQuestionIndex); //highlights the current chosen answer in the question
+    highlight(currentQuestionIndex); //runs general highlighting
+}
+
+const highlightNavs = (index) => {
+    if (index === 0) {
+        prevBtn.classList.remove('nav-active');// remove the className current from all boxes first
+        nextBtn.className += ' nav-active';//make the the nextBtn active
+    }
+    else if (index === questions.length - 1) {
+        nextBtn.classList.remove('nav-active');// remove the className nav-active from the nextBtn
+        prevBtn.className += ' nav-active'; //make the the prevBtn active
+    }
 
 }
 const optionSelected = (e) => {
-
     const selectedOption = document.getElementById(e.target.id);// index of the option selected
-
     selected = selectedOption.id; //id of the answer selected
     let selectedOptionIndex = Number(selected.slice(-1));
     user_choices[currentQuestionIndex] = selectedOptionIndex;//add the chosen answer to the json object to hold the answers
     highlightAnswer(currentQuestionIndex);//highlights the current chosen answer in the question
-
-
 }
 
-// loads all the questions
-loadQuestions(questions);
-loadAnswers(questions);
+loadQuestions(questions); // loads all the questions
+loadAnswers(questions); // loads all the answers
 
 
 // creates navigator slider event handlers
@@ -123,7 +123,7 @@ const highlightAnswer = (currentQuestionIndex) => {
 
     }
 }
-const highlightBox = (currentQuestionIndex) => {
+const highlightBox = (currentQuestionIndex) => { //adds green highlight to box to show it's active
     questionBoxes.forEach((box) => {
         box.classList.remove('current');// remove the className current from all boxes first
 
@@ -158,8 +158,17 @@ const endTimer = () => { // code to end the timer
 let timerIntervalId = setInterval(startTimer, 1000);// runs the changes in the timer
 if (quiz_state) {
     displayCurrentQuestion(0); // prints the first question
-    highlightBox(1);// highlight the first box(not a clean implementation)
+    highlightBox(1);// highlight the first box
+    highlightNavs(0);// highlight the next btn
     startTimer();// starts the timer engine
+
+
+}
+
+const highlight = (index) => { // function making btns active
+    highlightBox(index + 1);//highlights the current question in the navigator slider
+    highlightAnswer(index);//highlights the current chosen answer in the question
+    highlightNavs(index); //highlights the prev or next btn depending on the questionNumber
 }
 const computeScore = () => {
     for (let i = 0; i < questions.length; i++) {

@@ -91,26 +91,33 @@ body {
 
         .navs {
             padding:2%;
-            background-color:var(--green);
             border:1px solid grey;
-
+            border-radius:4px;
+        }
+        .nav-active {
+            background-color:var(--green);
         }
 
     }
     .questions-slider {
         display:flex;
         margin-top:9rem;
-        width:20%;
+        width:50%;
         align-self:center;
         justify-content:space-between;
 
         .question-mark {
-            width:3rem;
-            height:2.5rem;
+            // width:10%;
+            // height:2.5rem;
+            flex: 1 0 10%;
             border:1px solid grey;
+            // display:inline;
             text-align:center;
-            padding:7%;
-            background-color:lightgray;
+            padding:1rem;
+            // padding-top:;
+            border-radius:4px;
+            margin-left:0.7rem;
+            // background-color:lightgray;
 
         }
 
