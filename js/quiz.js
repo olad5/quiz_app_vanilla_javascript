@@ -8,9 +8,14 @@ const question_slider = document.querySelector('.questions-slider')// parent of 
 let prevBtn = document.querySelector('.previous-btn');
 let selected; //the selected option 
 let currentQuestionIndex = 0; // index of current question
-let startingSeconds = 10000; // starting seconds for the timer
-let questions_answered = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
+// let startingSeconds = 5; // starting seconds for the timer
+let startingSeconds = 1000; // starting seconds for the timer
+let user_choices = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
+let answers_to_questions = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
+let final_score = 0; // user final score 
 const countdownEl = document.getElementById('countdown'); // countdown timer text
+
+const endQuizBtn = document.getElementById('end-quiz'); // 
 
 
 
@@ -30,6 +35,14 @@ const loadQuestions = (questions) => {
         each_slider.className = `question-mark question-${i}`;
         each_slider.appendChild(document.createTextNode(i + 1));
         question_slider.appendChild(each_slider);
+    }
+
+}
+
+const loadAnswers = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+
+        answers_to_questions[i] = questions[i].answer; // gets all the answer to question and loads them into answers_to_questions object
     }
 
 }
@@ -78,7 +91,7 @@ const optionSelected = (e) => {
 
     selected = selectedOption.id; //id of the answer selected
     let selectedOptionIndex = Number(selected.slice(-1));
-    questions_answered[currentQuestionIndex] = selectedOptionIndex;//add the chosen answer to the json object to hold the answers
+    user_choices[currentQuestionIndex] = selectedOptionIndex;//add the chosen answer to the json object to hold the answers
     highlightAnswer(currentQuestionIndex);//highlights the current chosen answer in the question
 
 
@@ -86,6 +99,7 @@ const optionSelected = (e) => {
 
 // loads all the questions
 loadQuestions(questions);
+loadAnswers(questions);
 
 
 // creates navigator slider event handlers
@@ -101,8 +115,8 @@ const highlightAnswer = (currentQuestionIndex) => {
         document.getElementById(`option-${option}`).className = 'option';// remove all the green backgroundColor  from all options
     });
 
-    if (Object.keys(questions_answered).includes((currentQuestionIndex).toString())) {
-        let initial_answer = questions_answered[currentQuestionIndex];
+    if (Object.keys(user_choices).includes((currentQuestionIndex).toString())) {
+        let initial_answer = user_choices[currentQuestionIndex];
         let oldSelectedOption = document.getElementById(`option-${initial_answer}`);// old selected option
         oldSelectedOption.className += ' selected-opt';
 
@@ -127,7 +141,8 @@ const startTimer = () => { // code to start the timer
     startingSeconds--;
     if (startingSeconds < 0) {
         endTimer();
-        window.location.href = "../completed.html";// go the completed page
+        computeScore()
+        window.location.href = `../completed.html?score=${final_score}_${questions.length}`;// go the completed page with the user final score
 
     }
 
@@ -146,7 +161,21 @@ if (quiz_state) {
     highlightBox(1);// highlight the first box(not a clean implementation)
     startTimer();// starts the timer engine
 }
+const computeScore = () => {
+    for (let i = 0; i < questions.length; i++) {
+
+        // calculate the final score by check if answers and the user choices are the same
+        if (answers_to_questions[i] === user_choices[i]) {
+            final_score++
+
+        }
+    }
+}
+const endQuizEarly = (e) => {
+    startingSeconds = 0; // resets the timer to 0 and ends the quiz immediately
+}
 
 options.addEventListener('click', optionSelected);
 nextBtn.addEventListener('click', nextQuestion);
 prevBtn.addEventListener('click', prevQuestion);
+endQuizBtn.addEventListener('click', endQuizEarly);
