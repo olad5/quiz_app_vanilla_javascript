@@ -1,6 +1,4 @@
 'use strict'
-
-
 const quiz_state = true; //state of the quiz
 const options = document.querySelector('.options'); // the parent for the answers
 const nextBtn = document.querySelector('.next-btn');// next button
@@ -8,7 +6,7 @@ const question_slider = document.querySelector('.questions-slider')// parent of 
 let prevBtn = document.querySelector('.previous-btn');
 let selected; //the selected option 
 let currentQuestionIndex = 0; // index of current question
-let startingSeconds = 1000; // starting seconds for the timer
+let startingSeconds = 200; // starting seconds for the timer
 let user_choices = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 let answers_to_questions = {}; // all the answer questions. Format is QuestionIndex: OptionSelected
 let final_score = 0; // user final score 
@@ -20,12 +18,47 @@ const endQuizBtn = document.getElementById('end-quiz'); //
 
 
 let questions = [
-    {"question": "Yo what's good?", "options": ["stuff", 'mike', 'tony', 'kanye'], "answer": 2},
-    {"question": "If west coast is to west, east coast is to?", "options": ["North", 'South', 'East', 'West'], "answer": 1},
-    {"question": "What's good", "options": ["North", 'South', 'East', 'West'], "answer": 0},
-    {"question": "How are you", "options": ["North", 'South', 'East', 'West'], "answer": 3},
+    {
+        "question": "Which type of JavaScript language is ",
+        "options": [
+            "Object-Oriented",
+            "Object-Based",
+            "Assembly-language",
+            "High-level"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Which one of the following also known as Conditional Expression:",
+        "options": [
+            "Alternative to if-else",
+            "Switch statement",
+            "If-then-else statement",
+            "immediate if"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "When interpreter encounters an empty statements, what it will do:",
+        "options": [
+            "Shows a warning",
+            "Prompts to complete the statement",
+            "Throws an error",
+            "Ignores the statements"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "The 'function' and 'var' are known as:",
+        "options": [
+            "Keywords",
+            "Data types",
+            "Declaration statements",
+            "Prototypes"
+        ],
+        "answer": 2
+    }
 ]
-
 const loadQuestions = (questions) => {
     for (let i = 0; i < questions.length; i++) {
 
