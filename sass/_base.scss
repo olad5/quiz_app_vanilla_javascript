@@ -32,3 +32,15 @@ html {
             padding:2%;
             background-color:var(--white);
 }
+
+footer {
+    display:flex;
+    justify-content:space-between;
+    width:10rem;
+    height:20rem;
+
+    .fa {
+        color:white;
+        font-size:4rem;
+    }
+}
